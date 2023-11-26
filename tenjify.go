@@ -4,9 +4,9 @@ import (
 	"image"
 	_ "image/jpeg"
 	_ "image/png"
+	"io"
 	"log"
 	"math"
-	"os"
 
 	"github.com/nfnt/resize"
 )
@@ -28,12 +28,8 @@ func numberToTenji(num int, fillBlank bool) string {
 	return string(rune(flags + 0x2800))
 }
 
-func Tenjify(fileName string, width int, threshold int, reverse bool, fillBlank bool) string {
-	reader, err := os.Open(fileName)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer reader.Close()
+func Tenjify(reader io.Reader, width int, threshold int, reverse bool, fillBlank bool) string {
+
 	m, _, err := image.Decode(reader)
 	if err != nil {
 		log.Fatal(err)
